@@ -12,14 +12,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
 
     EditText email, password;
-    Button btnSignup;
-    Button btnGoLogin;
+    Button btnSignup, btnGoLogin;
 
     FirebaseAuth auth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +32,13 @@ public class SignupActivity extends AppCompatActivity {
         btnSignup = findViewById(R.id.btnSignup);
         btnGoLogin = findViewById(R.id.btnGoLogin);
 
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         btnGoLogin.setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
-
-        auth = FirebaseAuth.getInstance();
 
         btnSignup.setOnClickListener(v -> createAccount());
     }
@@ -52,9 +54,25 @@ public class SignupActivity extends AppCompatActivity {
 
         auth.createUserWithEmailAndPassword(e, p)
                 .addOnSuccessListener(result -> {
-                    Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, DashboardActivity.class));
-                    finish();
+
+                    // 🔥 SAVE USER IN FIRESTORE (IMPORTANT)
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                    ChatUser user = new ChatUser(uid, userEmail);
+
+                    db.collection("users")
+                            .document(uid)
+                            .set(user)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this,
+                                        "Account created successfully",
+                                        Toast.LENGTH_SHORT).show();
+
+                                startActivity(new Intent(this, DashboardActivity.class));
+                                finish();
+                            });
+
                 })
                 .addOnFailureListener(ex -> {
 

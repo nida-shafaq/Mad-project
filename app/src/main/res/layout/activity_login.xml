@@ -8,6 +8,7 @@
         android:text="Khan Academy Login"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         android:gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
