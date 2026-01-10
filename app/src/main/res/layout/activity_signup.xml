@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Create Account"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/email"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/password"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- SIGNUP -->
+    <Button
+        android:id="@+id/btnSignup"
+        android:text="Signup"
+        android:backgroundTint="@color/update_blue"
+        android:textColor="@android:color/white"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- GO BACK TO LOGIN (THIS WAS MISSING) -->
+    <Button
+        android:id="@+id/btnGoLogin"
+        android:text="Already have account? Login"
+        android:backgroundTint="@color/update_blue"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
